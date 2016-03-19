@@ -3,12 +3,12 @@
 var myStorage = localStorage;
 
 // sample data -----
-var studentTest = [
-    {'id':1, 'name':'Randy', 'course':'Politics', 'grade':55},
-    {'id':2, 'name':'John', 'course':'Math', 'grade':66},
-    {'id':3, 'name':'Sandy', 'course':'Physics', 'grade':98}
-]
-myStorage.setItem('student1', JSON.stringify(studentTest));
+// var studentTest = [
+//     {'id':1, 'name':'Randy', 'course':'Politics', 'grade':55},
+//     {'id':2, 'name':'John', 'course':'Math', 'grade':66},
+//     {'id':3, 'name':'Sandy', 'course':'Physics', 'grade':98}
+// ]
+// myStorage.setItem('student1', JSON.stringify(studentTest));
 
 
 $("document").ready(function() {
@@ -31,9 +31,10 @@ $("document").ready(function() {
 
     $(".getData").on("click", function() {
         a_DOM.clearTable();
-        a_Storage.getData(a_SGT);
-        a_DOM.populate(a_SGT.studentArray);
-        a_DOM.populateAvg(a_SGT.gradeAvg());
+        if (a_Storage.getData(a_SGT)) {
+            a_DOM.populate(a_SGT.studentArray);
+            a_DOM.populateAvg(a_SGT.gradeAvg());
+        }
     });
 
     $(".deleteData").on("click", function() {
@@ -47,8 +48,9 @@ $("document").ready(function() {
         a_DOM.populateAvg(a_SGT.gradeAvg());
     });
 
-    $(".wipeStorage").on("click", function() {
+    $(".wipeData").on("click", function() {
         a_Storage.wipeStorage();
+        a_SGT.studentArray = [];
         a_DOM.clearTable();
     });
 });
@@ -58,8 +60,11 @@ var SGT = function() {
     var self = this;
     self.studentArray = [];
     self.newID = function() {
-        console.log("id: " + self.studentArray[self.studentArray.length-1].id);
-        return self.studentArray[self.studentArray.length-1].id+ 1;
+        if (self.studentArray.length > 0) {
+            return self.studentArray[self.studentArray.length-1].id+ 1;
+        } else {
+            return 1;
+        }
     };
     self.gradeAvg = function() {
         var gradeTotal = null;
@@ -81,7 +86,13 @@ var Student = function() {
 var SGT_Storage = function() {
     var self = this;
     self.getData = function(newSGT) {
-        newSGT.studentArray = JSON.parse(myStorage.getItem('student1'));
+        if (myStorage.getItem('student1')) {
+            newSGT.studentArray = JSON.parse(myStorage.getItem('student1'));
+            return true;
+        } else {
+            console.log("No data exists");
+            return false;
+        }
     };
     self.addData = function(newStudent, newSGT) {
         newStudent.id = newSGT.newID();
@@ -127,12 +138,10 @@ var SGT_DOM = function() {
         if (sName == "" || sCourse == "" || sGrade == "") {
             console.log("Name, course, or grade missing");
             return false;
-        }
-        else if (isNaN(sGrade)) {
+        } else if (isNaN(sGrade)) {
             console.log("Incorrect grade entered");
             return false;
-        }
-        else {
+        } else {
             newStudent.name = sName;
             newStudent.course = sCourse;
             newStudent.grade = parseInt(sGrade);
