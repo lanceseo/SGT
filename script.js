@@ -2,13 +2,14 @@
 
 var myStorage = localStorage;
 
-// sample data -----
+// sample data -------
 // var studentTest = [
 //     {'id':1, 'name':'Randy', 'course':'Politics', 'grade':55},
 //     {'id':2, 'name':'John', 'course':'Math', 'grade':66},
 //     {'id':3, 'name':'Sandy', 'course':'Physics', 'grade':98}
 // ]
 // myStorage.setItem('student1', JSON.stringify(studentTest));
+// ------- sample data
 
 
 $("document").ready(function() {
