@@ -1,4 +1,4 @@
-// v1 Front-end coding with localStorage
+// v2 sgt_php
 
 var myStorage = localStorage;
 
@@ -14,6 +14,7 @@ var myStorage = localStorage;
 
 $("document").ready(function() {
     $(".addData").on("click", function() {
+        console.log("add clicked");
         if (a_DOM.getInput(a_Student)) {
             a_Storage.getData(a_SGT);
             a_Storage.addData(a_Student, a_SGT);
@@ -31,6 +32,7 @@ $("document").ready(function() {
     });
 
     $(".getData").on("click", function() {
+        console.log("getData clicked");
         a_DOM.clearTable();
         if (a_Storage.getData(a_SGT)) {
             a_DOM.populate(a_SGT.studentArray);
