@@ -1,4 +1,5 @@
-// v2 sgt_php
+// v3 sgt_angular - this script.js is not used
+// use app.js instead
 
 var myStorage = localStorage;
 

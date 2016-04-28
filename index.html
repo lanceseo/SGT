@@ -1,14 +1,16 @@
 <!doctype html>
-<html>
+<html ng-app="sgtapp">
 <head>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <script src="script.js"></script>
+    <script src="jquery-2.2.3.min.js"></script>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <script src="bootstrap.min.js"></script>
+    <script src="angular.min.js"></script>
+    <script src="app.js"></script>
+<!--     <script src="script.js"></script> -->
 <!--     <meta name="viewport" content="initial-scale=1, user-scalable=no"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
+<body ng-controller="dataController as dCtrl">
 <div class="container-flow">
     <div class="page-header">
         <!-- only show this element when the isnt on mobile -->
@@ -22,53 +24,62 @@
     </div>
 
     <div class="student-add-form col-sm-3 col-sm-push-9">
+        <button type="button" class="btn btn-primary getData" ng-click="dCtrl.getData()">Get data</button><br><br>
+
         <h4>Add Student</h4>
         <div class="form-group input-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-user"></span>
             </span>
-            <input type="text" class="form-control" name="studentName" id="studentName" placeholder="Student Name">
+            <input type="text" class="form-control" name="studentName" id="studentName" placeholder="Student Name" ng-model="sname">
         </div>
         <div class="form-group input-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-list-alt"></span>
             </span>
             <input type="text" class="form-control" name="course" id="course"
-                   placeholder="Student Course">
+                   placeholder="Student Course" ng-model="scourse">
         </div>
         <div class="form-group input-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-education"></span>
             </span>
             <input type="text" class="form-control" name="studentGrade" id="studentGrade"
-                   placeholder="Student Grade">
+                   placeholder="Student Grade" ng-model="sgrade">
         </div>
-        <button type="button" class="btn btn-success addData">Add</button>
-        <button type="button" class="btn btn-default cancelData">Cancel</button><br><br>
-        <button type="button" class="btn btn-primary getData">Get data</button><br><br>
+        <button type="button" class="btn btn-success addData" ng-click="dCtrl.addData(sname, scourse, sgrade)">Add</button>
+        <button type="button" class="btn btn-default cancelData" ng-click="sname=null; scourse=null; sgrade=null;">Cancel</button><br><br>
+
+        <h4>Delete Student</h4>
         <div class="form-group input-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-star"></span>
             </span>
             <input type="text" class="form-control" name="studentID" id="studentID"
-                   placeholder="Student ID">
+                   placeholder="Student ID" ng-model="sid">
         </div>
-        <button type="button" class="btn btn-warning deleteData">Delete by ID</button><br><br>
-        <button type="button" class="btn btn-danger wipeData">Wipe Data</button>
+        <button type="button" class="btn btn-warning deleteData" ng-click="dCtrl.deleteData(sid)">Delete by ID</button><br><br>
+        <button type="button" class="btn btn-danger wipeData" ng-click="dCtrl.wipeData()">Wipe All Data</button>
     </div>
 
     <div class="student-list-container col-sm-9 col-sm-pull-3">
         <table class="student-list table">
             <thead>
-            <tr>
-                <th>Student ID</th>
-                <th>Student Name</th>
-                <th>Student Course</th>
-                <th>Student Grade</th>
-                <th>Operations</th>
-            </tr>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Student Course</th>
+                    <th>Student Grade</th>
+                    <th>Operations</th>
+                </tr>
             </thead>
             <tbody>
+                <tr ng-repeat="x in dCtrl.sArray track by $index">
+                    <td>{{x.id}}</td>
+                    <td>{{x.name}}</td>
+                    <td>{{x.course}}</td>
+                    <td>{{x.grade}}</td>
+                </tr>
             </tbody>
         </table>
     </div>
