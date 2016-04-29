@@ -15,12 +15,10 @@ app.controller('dataController', ['firebaseOper', 'gradeAvg', function(firebaseO
             return 1;
         }
     };
-
 	this.getData = function() {
-		//self.sArray = storageOper.getStorage();
 		self.sArray = firebaseOper.getData();
-		console.log('all: ', self.sArray);
-		//self.gAverage = gradeAvg.calcAvg(self.sArray);
+		console.log("self.sArray", self.sArray);
+		self.gAverage = gradeAvg.calcAvg(self.sArray);
 	};
 	this.addData = function(sname, scourse, sgrade) {
 		var newStudent = {};
@@ -28,17 +26,14 @@ app.controller('dataController', ['firebaseOper', 'gradeAvg', function(firebaseO
 		newStudent.name = sname;
 		newStudent.course = scourse;
 		newStudent.grade = parseInt(sgrade);
-		//self.sArray.push(newStudent);
-		//storageOper.setStorage(self.sArray);
 		firebaseOper.addData(newStudent);
-		//self.gAverage = gradeAvg.calcAvg(self.sArray);
+		self.getData();
 	};
 	this.deleteData = function(sid) {
 		for (var i=0; i<self.sArray.length; i++) {
 			if (self.sArray[i].id === parseInt(sid)) {
-				//self.sArray.splice(i,1);
 				firebaseOper.removeData(i);
-				//self.gAverage = gradeAvg.calcAvg(self.sArray);
+				self.getData();
 				return;
 			} else if (i === self.sArray.length-1) {
 				console.log('ID not found');
@@ -52,7 +47,6 @@ app.controller('dataController', ['firebaseOper', 'gradeAvg', function(firebaseO
 		console.log('sArray', sArray);
 		//self.gAverage = gradeAvg.calcAvg(self.sArray);
 	};*/
-
 }]);
 
 // CRUD for Firebase
@@ -72,16 +66,21 @@ app.service('firebaseOper', ['$firebaseArray', function($firebaseArray) {
 		self.dbArray.$remove(sid);
 		console.log('removed');
 	}
-	// this.destroyData = function() {
-	// 	self.dbArray.$destroy();
-	// 	console.log('destroyed');
-	// }
-
 }]);
 
+// Grade average calculator
+app.service('gradeAvg', function() {
+    this.calcAvg = function(sArray) {
+	    var gradeTotal = null;
+	    for (var i=0; i<sArray.length; i++) {
+	        gradeTotal += parseInt(sArray[i].grade);
+	    }
+	    return parseInt((gradeTotal / sArray.length));
+	};
+});
 
 // CRUD operation using browser's Local Storage
-app.service('storageOper', function() {
+/*app.service('storageOper', function() {
 	var locStorage = localStorage;
 	this.getStorage = function() {
 		console.log(JSON.parse(locStorage.getItem('sData')));
@@ -95,15 +94,6 @@ app.service('storageOper', function() {
 		locStorage.removeItem('sData');
 		console.log('localStorage wiped');
 	};
-});
+});*/
 
-// Grade average calculator
-app.service('gradeAvg', function() {
-    this.calcAvg = function(sArray) {
-	    var gradeTotal = null;
-	    for (var i=0; i<sArray.length; i++) {
-	        gradeTotal += parseInt(sArray[i].grade);
-	    }
-	    return parseInt((gradeTotal / sArray.length));
-	};
-});
+
