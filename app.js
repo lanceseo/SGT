@@ -4,7 +4,7 @@
 var app = angular.module('sgtapp',['firebase']);
 
 // Data controller
-app.controller('dataController', ['firebaseOper', 'gradeAvg', function(firebaseOper, gradeAvg){
+app.controller('dataController', ['firebaseOper', 'gradeAvg', 'inputCheck', function(firebaseOper, gradeAvg, inputCheck){
 	var self = this;
 	this.sArray = [];
 	this.gAverage = 0;
@@ -79,6 +79,26 @@ app.service('gradeAvg', function() {
 	};
 });
 
+app.service('inputCheck', function() {
+	var self = this;
+	this.expName = /^[\p{L}\s'.-]+$/;
+	this.expCourse = /^[A-Za-z0-9\s-]+$/;
+
+	this.checkName = function(input) {
+		return self.expName.test(input);
+	};
+	this.checkCourse = function(input) {
+		return self.expCourse.test(input);
+	};
+	this.checkGrade = function(input) {
+		if (parseInt(input) >= 0 && parseInt(input) <= 100) {
+			return true;
+		}
+		return false;
+	};
+
+});
+
 // CRUD operation using browser's Local Storage
 /*app.service('storageOper', function() {
 	var locStorage = localStorage;
@@ -96,4 +116,13 @@ app.service('gradeAvg', function() {
 	};
 });*/
 
+
+/* 
+- regex
+name: at least 1 letter, no numbers
+course: at least 1 char
+grade: at least 1 digit num, less than 101
+disable 'Add' until valid
+
+*/
 
