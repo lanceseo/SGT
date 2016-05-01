@@ -4,7 +4,7 @@
 var app = angular.module('sgtapp',['firebase']);
 
 // Data controller
-app.controller('dataController', ['firebaseOper', 'gradeAvg', 'inputCheck', function(firebaseOper, gradeAvg, inputCheck){
+app.controller('dataController', ['firebaseOper', 'gradeAvg', function(firebaseOper, gradeAvg){
 	var self = this;
 	this.sArray = [];
 	this.gAverage = 0;
@@ -20,7 +20,7 @@ app.controller('dataController', ['firebaseOper', 'gradeAvg', 'inputCheck', func
 		console.log("self.sArray", self.sArray);
 		self.gAverage = gradeAvg.calcAvg(self.sArray);
 	};
-	this.addData = function(sname, scourse, sgrade) {
+	this.addData = function(sname, scourse, sgrade) {		
 		var newStudent = {};
 		newStudent.id = self.newID();
 		newStudent.name = sname;
@@ -40,13 +40,6 @@ app.controller('dataController', ['firebaseOper', 'gradeAvg', 'inputCheck', func
 			}
 		}
 	};
-/*	this.wipeData = function() {
-		//self.sArray = [];
-		//storageOper.removeStorage();
-		firebaseOper.destroyData();
-		console.log('sArray', sArray);
-		//self.gAverage = gradeAvg.calcAvg(self.sArray);
-	};*/
 }]);
 
 // CRUD for Firebase
@@ -79,12 +72,15 @@ app.service('gradeAvg', function() {
 	};
 });
 
-app.service('inputCheck', function() {
+
+// Input validation
+/*app.service('inputCheck', function() {
 	var self = this;
 	this.expName = /^[\p{L}\s'.-]+$/;
 	this.expCourse = /^[A-Za-z0-9\s-]+$/;
 
 	this.checkName = function(input) {
+		console.log(self.expName.test(input));
 		return self.expName.test(input);
 	};
 	this.checkCourse = function(input) {
@@ -96,8 +92,7 @@ app.service('inputCheck', function() {
 		}
 		return false;
 	};
-
-});
+});*/
 
 // CRUD operation using browser's Local Storage
 /*app.service('storageOper', function() {
@@ -117,12 +112,4 @@ app.service('inputCheck', function() {
 });*/
 
 
-/* 
-- regex
-name: at least 1 letter, no numbers
-course: at least 1 char
-grade: at least 1 digit num, less than 101
-disable 'Add' until valid
-
-*/
 
