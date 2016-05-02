@@ -4,10 +4,11 @@
 var app = angular.module('sgtapp',['firebase']);
 
 // Data controller
-app.controller('dataController', ['firebaseOper', 'gradeAvg', function(firebaseOper, gradeAvg){
+app.controller('dataController', ['firebaseOper', 'gradeAvg', '$scope', function(firebaseOper, gradeAvg, $scope){
 	var self = this;
 	this.sArray = [];
 	this.gAverage = 0;
+	this.sOrderBy = null;
 	this.newID = function() {
         if (self.sArray.length > 0) {
             return self.sArray[self.sArray.length-1].id+1;
@@ -28,6 +29,7 @@ app.controller('dataController', ['firebaseOper', 'gradeAvg', function(firebaseO
 		newStudent.grade = parseInt(sgrade);
 		firebaseOper.addData(newStudent);
 		self.getData();
+		self.clearInputs();
 	};
 	this.deleteData = function(sid) {
 		for (var i=0; i<self.sArray.length; i++) {
@@ -40,6 +42,16 @@ app.controller('dataController', ['firebaseOper', 'gradeAvg', function(firebaseO
 			}
 		}
 	};
+
+	this.clearInputs = function() {
+		$scope.sname = null;
+		$scope.scourse = null;
+		$scope.sgrade = null;
+	};
+
+	this.orderData = function(orderName) {
+		self.sOrderBy = orderName;
+	}
 }]);
 
 // CRUD for Firebase

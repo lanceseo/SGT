@@ -61,7 +61,7 @@
                 <input type="text" class="form-control" name="studentGrade" id="studentGrade" placeholder="Student Grade" ng-model="sgrade" required>
             </div>
             <button type="submit" class="btn btn-success addData" ng-click="dCtrl.addData(sname, scourse, sgrade)" ng-disabled="!sname || !scourse || !sgrade">Add</button>
-            <button type="button" class="btn btn-default cancelData" ng-click="sname=null; scourse=null; sgrade=null;" ng-disabled="!sname && !scourse && !sgrade">Cancel</button><br><br>
+            <button type="button" class="btn btn-default cancelData" ng-click="dCtrl.clearInputs()" ng-disabled="!sname && !scourse && !sgrade">Cancel</button><br><br>
         </form>
 
         <h4>Delete Student</h4>
@@ -79,15 +79,15 @@
         <table class="student-list table">
             <thead>
                 <tr>
-                    <th>Student ID</th>
-                    <th>Student Name</th>
-                    <th>Student Course</th>
-                    <th>Student Grade</th>
+                    <th ng-click="dCtrl.orderData('id')">Student ID</th>
+                    <th ng-click="dCtrl.orderData('name')">Student Name</th>
+                    <th ng-click="dCtrl.orderData('course')">Student Course</th>
+                    <th ng-click="dCtrl.orderData('grade')">Student Grade</th>
                     <th>Operations</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="x in dCtrl.sArray">
+                <tr ng-repeat="x in dCtrl.sArray | orderBy:dCtrl.sOrderBy">
                     <td>{{x.id}}</td>
                     <td>{{x.name}}</td>
                     <td>{{x.course}}</td>
