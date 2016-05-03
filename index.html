@@ -21,6 +21,9 @@
         input.ng-valid {
             border-color: green;
         }
+        .getData, .clearData, .sortData, .delData {
+            font-size: 85%;
+        }
     </style>
 </head>
 
@@ -29,16 +32,17 @@
     <div class="page-header">
         <!-- only show this element when the isnt on mobile -->
         <h1 class="hidden-xs">Student Grade Table
-            <small class="pull-right">Grade Average : <span class="avgGrade label label-default">{{dCtrl.gAverage}}</span></small>
+            <small class="pull-right">Grade Average : <span class="avgGrade label label-default" ng-show="showData">{{dCtrl.gAverage}}</span></small>
         </h1>
         <!-- only show this element when the user gets to a mobile version -->
         <h3 class="hidden-sm hidden-md hidden-lg">Student Grade Table
-            <small class="pull-right">Grade Average : <span class="avgGrade label label-default"></span></small>
+            <small class="pull-right">Grade Average : <span class="avgGrade label label-default" ng-show="showData">{{dCtrl.gAverage}}</span></small>
         </h3>
     </div>
 
     <div class="student-add-form col-sm-3 col-sm-push-9">
-        <button type="button" class="btn btn-primary getData" ng-click="dCtrl.getData()">Retrieve data</button><br><br>
+        <p><button type="button" class="btn btn-primary getData" ng-click="dCtrl.getData(); showData=true;">Retrieve data</button>
+        <button type="button" class="btn btn-warning clearData" ng-click="showData=false">Clear page</button></p><br>
 
         <h4>Add Student</h4>
         <form name="addForm" novalidate>
@@ -85,20 +89,20 @@
         <table class="student-list table">
             <thead>
                 <tr>
-                    <th ng-click="dCtrl.orderData('id')"><button type="button" class="btn btn-info">Student ID</button></th>
-                    <th ng-click="dCtrl.orderData('name')"><button type="button" class="btn btn-info">Student Name</button></th>
-                    <th ng-click="dCtrl.orderData('course')"><button type="button" class="btn btn-info">Student Course</button></th>
-                    <th ng-click="dCtrl.orderData('grade')"><button type="button" class="btn btn-info">Student Grade</button></th>
+                    <th ng-click="dCtrl.orderData('id')"><button type="button" class="btn btn-info sortData">Student ID</button></th>
+                    <th ng-click="dCtrl.orderData('name')"><button type="button" class="btn btn-info sortData">Student Name</button></th>
+                    <th ng-click="dCtrl.orderData('course')"><button type="button" class="btn btn-info sortData">Student Course</button></th>
+                    <th ng-click="dCtrl.orderData('grade')"><button type="button" class="btn btn-info sortData">Student Grade</button></th>
                     <th><button type="button" class="btn btn-default" disabled>Operation</button></th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="x in dCtrl.sArray | orderBy:dCtrl.sOrderBy" ng-class="{'success': x.max, 'danger': x.min}">
+                <tr ng-repeat="x in dCtrl.sArray | orderBy:dCtrl.sOrderBy" ng-class="{'success': x.max, 'danger': x.min}" ng-show="showData">
                     <td>{{x.id}}</td>
                     <td>{{x.name}}</td>
                     <td>{{x.course}}</td>
                     <td>{{x.grade}}</td>
-                    <td ng-click="dCtrl.deleteData(x.id)"><button type="button" class="btn btn-danger">Delete</button></td>
+                    <td ng-click="dCtrl.deleteData(x.id)"><button type="button" class="btn btn-danger delData">Delete</button></td>
                 </tr>
             </tbody>
         </table>

@@ -59,14 +59,17 @@ app.controller('dataController', ['firebaseOper', 'gradeAvg', '$scope', function
 		}
 	};
 
+	this.orderData = function(orderName) {
+		self.sOrderBy = orderName;
+	};
+
 	this.clearInputs = function() {
 		$scope.sname = null;
 		$scope.scourse = null;
 		$scope.sgrade = null;
 	};
-
-	this.orderData = function(orderName) {
-		self.sOrderBy = orderName;
+	this.clearPage = function() {
+		$("tbody").empty();
 	};
 }]);
 
