@@ -18,7 +18,8 @@ app.controller('dataController', ['firebaseOper', 'gradeAvg', '$scope', function
     };
 	this.getData = function() {
 		self.sArray = firebaseOper.getData();
-		console.log("self.sArray", self.sArray);
+		self.markMaxMin();
+		console.log("self.sArray: ", self.sArray);
 		self.gAverage = gradeAvg.calcAvg(self.sArray);
 	};
 	this.addData = function(sname, scourse, sgrade) {		
@@ -43,6 +44,21 @@ app.controller('dataController', ['firebaseOper', 'gradeAvg', '$scope', function
 		}
 	};
 
+	this.markMaxMin = function() {
+		var gradeArray = self.sArray.map(function(obj){
+			return obj.grade;
+		});		
+		var maxVal = Math.max.apply(null, gradeArray); //Find max grade
+		var minVal = Math.min.apply(null, gradeArray); //Find min grade		
+		for (var i=0; i<self.sArray.length; i++) { //Loop through the object to add max/min property
+			if(self.sArray[i].grade === maxVal) {
+				self.sArray[i].max = true;
+			} else if (self.sArray[i].grade === minVal) {
+				self.sArray[i].min = true;
+			}
+		}
+	};
+
 	this.clearInputs = function() {
 		$scope.sname = null;
 		$scope.scourse = null;
@@ -51,7 +67,7 @@ app.controller('dataController', ['firebaseOper', 'gradeAvg', '$scope', function
 
 	this.orderData = function(orderName) {
 		self.sOrderBy = orderName;
-	}
+	};
 }]);
 
 // CRUD for Firebase

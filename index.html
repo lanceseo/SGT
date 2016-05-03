@@ -87,11 +87,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="x in dCtrl.sArray | orderBy:dCtrl.sOrderBy">
+                <tr ng-repeat="x in dCtrl.sArray | orderBy:dCtrl.sOrderBy" ng-class="{'success': x.max, 'danger': x.min}">
                     <td>{{x.id}}</td>
                     <td>{{x.name}}</td>
                     <td>{{x.course}}</td>
                     <td>{{x.grade}}</td>
+                    <td ng-show="x.max">High</td>
+                    <td ng-show="x.min">Low</td>
                 </tr>
             </tbody>
         </table>
