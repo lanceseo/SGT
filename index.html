@@ -51,7 +51,10 @@
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-list-alt"></span>
                 </span>
-                <input type="text" class="form-control" name="course" id="course" placeholder="Student Course" ng-model="scourse" required>
+                <input type="text" class="form-control" name="course" id="course" placeholder="Student Course" ng-model="scourse" list="courses" required>
+                <datalist id="courses">
+                    <option ng-repeat="x in dCtrl.sArray" value="{{x.course}}">
+                </datalist>
             </div>
             <div ng-show="addForm.studentGrade.$dirty && !sgrade">Grade is requried</div>
             <div class="form-group input-group">
