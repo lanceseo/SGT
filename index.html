@@ -15,6 +15,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Grade Table - Lance</title>
     <style>
+        .textBlack {
+            color: black;
+        }
         input.ng-valid {
             border-color: green;
         }
@@ -35,7 +38,7 @@
     </div>
 
     <div class="student-add-form col-sm-3 col-sm-push-9">
-        <button type="button" class="btn btn-primary getData" ng-click="dCtrl.getData()">Get data</button><br><br>
+        <button type="button" class="btn btn-primary getData" ng-click="dCtrl.getData()">Retrieve data</button><br><br>
 
         <h4>Add Student</h4>
         <form name="addForm" novalidate>
@@ -67,26 +70,26 @@
             <button type="button" class="btn btn-default cancelData" ng-click="dCtrl.clearInputs()" ng-disabled="!sname && !scourse && !sgrade">Cancel</button><br><br>
         </form>
 
-        <h4>Delete Student</h4>
+<!--         <h4>Delete Student</h4>
         <div class="form-group input-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-star"></span>
             </span>
             <input type="text" class="form-control" name="studentID" id="studentID" placeholder="Student ID" ng-model="sid" required>
         </div>
-        <button type="button" class="btn btn-warning deleteData" ng-click="dCtrl.deleteData(sid)">Delete by ID</button><br><br>
-<!--         <button type="button" class="btn btn-danger wipeData" ng-click="dCtrl.wipeData()">Wipe All Data</button> -->
+        <button type="button" class="btn btn-warning deleteData" ng-click="dCtrl.deleteData(sid)">Delete by ID</button><br><br> -->
     </div>
 
     <div class="student-list-container col-sm-9 col-sm-pull-3">
+        <h4><span class="label bg-success textBlack">Highest</span><span class="label bg-danger textBlack">Lowest</span></h4>
         <table class="student-list table">
             <thead>
                 <tr>
-                    <th ng-click="dCtrl.orderData('id')">Student ID</th>
-                    <th ng-click="dCtrl.orderData('name')">Student Name</th>
-                    <th ng-click="dCtrl.orderData('course')">Student Course</th>
-                    <th ng-click="dCtrl.orderData('grade')">Student Grade</th>
-                    <th>Operations</th>
+                    <th ng-click="dCtrl.orderData('id')"><button type="button" class="btn btn-info">Student ID</button></th>
+                    <th ng-click="dCtrl.orderData('name')"><button type="button" class="btn btn-info">Student Name</button></th>
+                    <th ng-click="dCtrl.orderData('course')"><button type="button" class="btn btn-info">Student Course</button></th>
+                    <th ng-click="dCtrl.orderData('grade')"><button type="button" class="btn btn-info">Student Grade</button></th>
+                    <th><button type="button" class="btn btn-default" disabled>Operation</button></th>
                 </tr>
             </thead>
             <tbody>
@@ -95,8 +98,7 @@
                     <td>{{x.name}}</td>
                     <td>{{x.course}}</td>
                     <td>{{x.grade}}</td>
-                    <td ng-show="x.max">High</td>
-                    <td ng-show="x.min">Low</td>
+                    <td ng-click="dCtrl.deleteData(x.id)"><button type="button" class="btn btn-danger">Delete</button></td>
                 </tr>
             </tbody>
         </table>
