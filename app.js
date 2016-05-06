@@ -1,4 +1,5 @@
-/* v4 - Angular with Firebase (AngularFire) */
+/* v5 - Angular with Firebase (AngularFire) + additional functionalities
+> top/low grade highlighting, sorting, course autocomplete */
 
 /***** Student Grade Table core operation app *****/
 var app = angular.module('sgtapp',['firebase']);
